@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Begin Wallet - Catalyst Fund 12 Milestone 2 Report</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0abab5;
+            --primary-dark: #089490;
+            --primary-light: #00e5ff;
+            --secondary: #ced0ff;
+            --background-dark: #141414;
+            --background-light: #1a1a2e;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --error: #f44336;
+            --card-bg: #1e1e2f;
+            --border-color: #2a2a3e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--background-dark) 0%, var(--background-light) 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 40px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-radius: 20px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--background-dark);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background: var(--primary);
+            color: var(--background-dark);
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .section {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        .section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section h2::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .section h3 {
+            font-size: 1.1rem;
+            margin: 20px 0 10px;
+            color: var(--text-primary);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .feature-card {
+            background: var(--background-dark);
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary);
+        }
+
+        .feature-card h4 {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            color: var(--primary-light);
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-complete {
+            background: rgba(76, 175, 80, 0.2);
+            color: var(--success);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        .file-list {
+            background: var(--background-dark);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 10px 0;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+        }
+
+        .file-list code {
+            color: var(--primary-light);
+        }
+
+        .file-list .path {
+            color: var(--text-secondary);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--background-dark);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: rgba(10, 186, 181, 0.05);
+        }
+
+        .algorithm-box {
+            background: var(--background-dark);
+            border-left: 3px solid var(--primary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .algorithm-box ol {
+            margin-left: 20px;
+            color: var(--text-secondary);
+        }
+
+        .algorithm-box li {
+            margin: 8px 0;
+        }
+
+        .security-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .security-item:last-child {
+            border-bottom: none;
+        }
+
+        .security-icon {
+            width: 32px;
+            height: 32px;
+            background: rgba(10, 186, 181, 0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .metric-card {
+            background: var(--background-dark);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .metric-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border-color);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 24px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -24px;
+            top: 4px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 2px solid var(--card-bg);
+        }
+
+        .timeline-date {
+            font-size: 0.8rem;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .timeline-content {
+            margin-top: 4px;
+            color: var(--text-secondary);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid var(--border-color);
+            margin-top: 40px;
+            color: var(--text-secondary);
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .highlight {
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .section {
+                padding: 20px;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">B</div>
+            <h1>Begin Wallet</h1>
+            <p class="subtitle">Catalyst Fund 12 - Milestone 2 Report</p>
+            <span class="badge">Face Biometrics Integration</span>
+        </header>
+
+        <section class="section">
+            <h2>Executive Summary</h2>
+            <p>This report documents the successful implementation of face biometrics authentication for Begin Wallet, fulfilling the requirements of Catalyst Fund 12 Milestone 2. The integration enables users to authenticate transactions and access their wallet using facial recognition technology, providing a seamless and secure user experience.</p>
+            
+            <div class="metric-grid">
+                <div class="metric-card">
+                    <div class="metric-value">5</div>
+                    <div class="metric-label">Core Features</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">60%</div>
+                    <div class="metric-label">Confidence Threshold</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">100</div>
+                    <div class="metric-label">Consensus Attempts</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">30s</div>
+                    <div class="metric-label">Verification Window</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Implemented Features</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>1. Face Enrollment</h4>
+                    <p>ISO/IEC 19794-5 compliant facial image capture with quality validation. Users can enroll their face through Settings > Security > Face Biometrics with real-time liveness detection.</p>
+                    <span class="status-indicator status-complete">
+                        <span class="status-dot"></span>
+                        Complete
+                    </span>
+                </div>
+                <div class="feature-card">
+                    <h4>2. Biometric Wallet Creation</h4>
+                    <p>Generate deterministic seedphrases from face descriptors using 100-attempt consensus algorithm. Converts 128-dimensional face descriptors to BIP39 entropy for 15-word mnemonic generation.</p>
+                    <span class="status-indicator status-complete">
+                        <span class="status-dot"></span>
+                        Complete
+                    </span>
+                </div>
+                <div class="feature-card">
+                    <h4>3. Biometric Wallet Recovery</h4>
+                    <p>Recover wallets using face recognition with Blockfrost API verification. Validates recovered wallets by checking for existing blockchain transactions.</p>
+                    <span class="status-indicator status-complete">
+                        <span class="status-dot"></span>
+                        Complete
+                    </span>
+                </div>
+                <div class="feature-card">
+                    <h4>4. Passwordless Transaction Signing</h4>
+                    <p>Face verification acts as a secure password manager. After successful verification, encrypted password is decrypted and used automatically for transaction signing.</p>
+                    <span class="status-indicator status-complete">
+                        <span class="status-dot"></span>
+                        Complete
+                    </span>
+                </div>
+                <div class="feature-card">
+                    <h4>5. Transaction Authorization</h4>
+                    <p>Multiple security modes: password-only, password-or-face, password-and-face. Face verification with 60% confidence threshold provides secure transaction approval.</p>
+                    <span class="status-indicator status-complete">
+                        <span class="status-dot"></span>
+                        Complete
+                    </span>
+                </div>
+                <div class="feature-card">
+                    <h4>6. Enhanced Liveness Detection</h4>
+                    <p>Multiple anti-spoofing measures including face area validation, eye distance checks, head tilt detection, and blink detection via eye aspect ratio analysis.</p>
+                    <span class="status-indicator status-complete">
+                        <span class="status-dot"></span>
+                        Complete
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Technical Architecture</h2>
+            
+            <h3>Core Components</h3>
+            <div class="file-list">
+                <code>src/lib/faceBiometrics.ts</code> <span class="path">- Core face detection, matching, liveness, and settings management</span><br>
+                <code>src/lib/biometricSeedGenerator.ts</code> <span class="path">- Face-to-seedphrase conversion with consensus algorithm</span><br>
+                <code>src/components/FaceBiometricVerify.tsx</code> <span class="path">- Verification modal for transactions</span><br>
+                <code>src/hooks/useFaceBiometrics.ts</code> <span class="path">- React hook for face verification state</span><br>
+                <code>src/views/user-settings/face-biometrics-setup.tsx</code> <span class="path">- Face enrollment UI</span><br>
+                <code>src/views/account/generate-seed.tsx</code> <span class="path">- Biometric wallet creation</span><br>
+                <code>src/views/account/biometric-recovery.tsx</code> <span class="path">- Biometric wallet recovery</span><br>
+                <code>src/views/send/send-confirm.tsx</code> <span class="path">- Transaction signing with face verification</span>
+            </div>
+
+            <h3>Biometric Wallet Algorithm</h3>
+            <div class="algorithm-box">
+                <ol>
+                    <li>Capture face using webcam with face-api.js TinyFaceDetector</li>
+                    <li>Extract 128-dimensional face descriptor (Float32Array)</li>
+                    <li>Run 100 detection attempts to account for natural variance</li>
+                    <li>Convert descriptor to deterministic entropy: <code>descriptor[i] * 100 → bytes</code></li>
+                    <li>Generate BIP39 mnemonic from entropy (15-word for 160-bit strength)</li>
+                    <li>Use statistical mode (most frequent mnemonic) for wallet creation</li>
+                    <li>For recovery: verify wallet has transactions on Blockfrost</li>
+                </ol>
+            </div>
+
+            <h3>Passwordless Signing Flow</h3>
+            <div class="algorithm-box">
+                <ol>
+                    <li>User initiates transaction and selects face verification</li>
+                    <li>Face is captured and compared against stored reference descriptor</li>
+                    <li>If match score exceeds 60% threshold, verification is valid</li>
+                    <li>Stored reference descriptor is used to derive AES-256-GCM decryption key</li>
+                    <li>Encrypted password is decrypted using PBKDF2-derived key (100k iterations)</li>
+                    <li>Decrypted password is used to sign the transaction</li>
+                    <li>Verification token expires after 30 seconds for security</li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Security Model</h2>
+            
+            <div class="security-item">
+                <div class="security-icon">🔐</div>
+                <div>
+                    <strong>AES-256-GCM Encryption</strong>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Wallet passwords are encrypted using AES-256-GCM with a key derived from the reference face descriptor via PBKDF2 with 100,000 iterations.</p>
+                </div>
+            </div>
+            
+            <div class="security-item">
+                <div class="security-icon">👤</div>
+                <div>
+                    <strong>Face Verification Gate</strong>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Users must pass liveness detection and face matching before password can be retrieved. The verification is valid for only 30 seconds.</p>
+                </div>
+            </div>
+            
+            <div class="security-item">
+                <div class="security-icon">🔑</div>
+                <div>
+                    <strong>Key Never Stored</strong>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">The encryption key is derived at runtime from the face descriptor and random salt. The key itself is never persisted to storage.</p>
+                </div>
+            </div>
+            
+            <div class="security-item">
+                <div class="security-icon">🛡️</div>
+                <div>
+                    <strong>Liveness Detection</strong>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Multiple anti-spoofing checks including face area validation, eye alignment, head tilt detection, and eye aspect ratio (blink detection).</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Security Modes</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Mode</th>
+                        <th>Description</th>
+                        <th>Use Case</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="highlight">password_only</span></td>
+                        <td>Standard password-based signing</td>
+                        <td>Default mode, traditional security</td>
+                    </tr>
+                    <tr>
+                        <td><span class="highlight">password_or_face</span></td>
+                        <td>User chooses face OR password verification</td>
+                        <td>Convenience-focused, quick transactions</td>
+                    </tr>
+                    <tr>
+                        <td><span class="highlight">password_and_face</span></td>
+                        <td>Requires face verification THEN password</td>
+                        <td>Maximum security, high-value transactions</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="section">
+            <h2>Testing & Validation</h2>
+            
+            <h3>Test Scenarios Completed</h3>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">Face Enrollment</div>
+                    <div class="timeline-content">Successfully capture and store reference face descriptor with quality validation</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Password Storage</div>
+                    <div class="timeline-content">Encrypt wallet password using face descriptor-derived key</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Face Verification</div>
+                    <div class="timeline-content">Match live face against stored reference with 60% threshold</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Password Retrieval</div>
+                    <div class="timeline-content">Decrypt password using reference descriptor after successful verification</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Transaction Signing</div>
+                    <div class="timeline-content">Complete Cardano transaction using retrieved password</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Biometric Wallet Creation</div>
+                    <div class="timeline-content">Generate deterministic seedphrase from face using 100-attempt consensus</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Milestone Deliverables</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Requirement</th>
+                        <th>Status</th>
+                        <th>Implementation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>ISO/IEC 19794-5 compliant facial image capture</td>
+                        <td><span class="status-indicator status-complete"><span class="status-dot"></span>Complete</span></td>
+                        <td>face-biometrics-setup.tsx with quality validation</td>
+                    </tr>
+                    <tr>
+                        <td>Consensus algorithm for seedphrase</td>
+                        <td><span class="status-indicator status-complete"><span class="status-dot"></span>Complete</span></td>
+                        <td>biometricSeedGenerator.ts with statistical mode</td>
+                    </tr>
+                    <tr>
+                        <td>Biometric wallet recovery</td>
+                        <td><span class="status-indicator status-complete"><span class="status-dot"></span>Complete</span></td>
+                        <td>biometric-recovery.tsx with API validation</td>
+                    </tr>
+                    <tr>
+                        <td>Passwordless authentication via face recognition</td>
+                        <td><span class="status-indicator status-complete"><span class="status-dot"></span>Complete</span></td>
+                        <td>Encrypted password store in faceBiometrics.ts</td>
+                    </tr>
+                    <tr>
+                        <td>Transaction authorization with confidence threshold</td>
+                        <td><span class="status-indicator status-complete"><span class="status-dot"></span>Complete</span></td>
+                        <td>FaceBiometricVerify.tsx with configurable threshold</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <footer>
+           
+        </footer>
+    </div>
+</body>
+</html>
